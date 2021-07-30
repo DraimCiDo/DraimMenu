@@ -7,6 +7,7 @@ config:
   refresh-gui: true
   refresh-delay: 20
   gui-blocks: true
+  ingame-editor: true
   hotbar-items: true
   custom-commands: true
   auto-register-commands: false
@@ -42,6 +43,10 @@ placeholders:
   secondary:
     start: '{'
     end: '}'
+updater:
+  auto-update: true
+  minor-updates-only: true
+  update-checks: true
 purchase:
   currency:
     success: '&7Успешно кулпено $%dm-args%'
