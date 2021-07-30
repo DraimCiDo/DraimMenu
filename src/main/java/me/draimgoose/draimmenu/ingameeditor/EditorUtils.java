@@ -641,8 +641,9 @@ public class EditorUtils implements Listener {
         tempEdit.set("gui." + guiName + ".temp." + p.getName(),file.get("gui." + guiName + ".item." + e.getSlot()));
         saveFile("temp.yml", tempEdit);
     }
+    public void loadTempItem(InventoryClickEvent e, Player p, YamlConfiguration config,File file, String guiName){
         if(tempEdit.contains("gui." + guiName + ".temp." + p.getName())){
-            config.set("gui." + guiName + ".item." + e.getSlot(),tempEdit.get("gui." + guiName + ".temp." + p.getName()));
+            config.set("gui." + guiName + ".item." + e.getSlot(),tempEdit.get("gui" + guiName + ".temp." + p.getName()));
             saveFile(file, config);
         }
     }

@@ -4,6 +4,7 @@ import me.draimgoose.draimmenu.DraimMenu;
 
 public class PlayerHeads {
     DraimMenu plugin;
+
     public PlayerHeads(DraimMenu pl) {
         this.plugin = pl;
     }
@@ -13,9 +14,10 @@ public class PlayerHeads {
     }
 
     public String playerHeadString() {
-        if(plugin.legacy.LOCAL_VERSION.lessThanOrEqualTo(MinecraftVersions.v1_12)){
+        if (plugin.legacy.LOCAL_VERSION.lessThanOrEqualTo(MinecraftVersions.v1_12)) {
             return "SKULL_ITEM";
-        }else{
+        } else {
             return "PLAYER_HEAD";
         }
     }
+}
