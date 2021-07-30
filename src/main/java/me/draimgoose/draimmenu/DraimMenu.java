@@ -12,6 +12,7 @@ import me.draimgoose.draimmenu.classresources.placeholders.HexColours;
 import me.draimgoose.draimmenu.classresources.placeholders.Placeholders;
 import me.draimgoose.draimmenu.commands.*;
 import me.draimgoose.draimmenu.commandtags.CommandTags;
+import me.draimgoose.draimmenu.completetabs.DMTabComplete;
 import me.draimgoose.draimmenu.cutomcommands.CustomsCMD;
 import me.draimgoose.draimmenu.datamanager.DebugManager;
 import me.draimgoose.draimmenu.datamanager.GUIDataLoader;
@@ -140,6 +141,7 @@ public class DraimMenu extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         new Metrics(this);
         Objects.requireNonNull(this.getCommand("draimmenu")).setExecutor(new DraimMenu(this));
+        Objects.requireNonNull(this.getCommand("draimmenu")).setTabCompleter(new DMTabComplete(this));
         Objects.requireNonNull(this.getCommand("draimmenugenerate")).setTabCompleter(new TabCompleteGenerate(this));
         Objects.requireNonNull(this.getCommand("draimmenugenerate")).setExecutor(new DraimMenuGenerate(this));
         Objects.requireNonNull(this.getCommand("draimmenureload")).setExecutor(new CommandGUIReload(this));
