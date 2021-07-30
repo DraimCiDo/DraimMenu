@@ -1,0 +1,77 @@
+name: DraimMenu
+version: ${project.version}
+main: me.draimgoose.draimmenu.DraimMenu
+api-version: 1.17
+authors: [ DraimGooSe ]
+description: Плагин на создание GUI-панелей от DraimGooSe
+softdepend: [PlaceholderAPI, Vault, HeadDatabase, TokenManager, VotingPlugin, MMOItems, CustomItems, ChestSort]
+commands:
+  draimemnu:
+    description: Открыть командой GUI-панель
+    usage: /draimmenu <panel> [player:item] [player]
+    aliases: [dm, dmenu]
+  draimmenureload:
+    description: Перезагруть конфигурацию плагина.
+    usage: /draimenureload
+    aliases: [dmr, dmenur]
+  draimmenudebug:
+    description: Включение и отключение режима отладки
+    usage: /draimmenudebug
+    aliases: [dmd, dmenud]
+  draimenublock:
+    description: Добавить или удалить панели из просматриваемых блоков.
+    usage: /draimemnublock
+    aliases: [dmb, dmenub]
+  draimmenugenerate:
+    description: Создать графический интерфейс.
+    usage: /draimmenugenerate
+    aliases: [dmg, dmenug]
+  draimmenuversion:
+    description: Отобразить текущую версию.
+    usage: /draimmenuversion
+    aliases: [dmv, dmenuv]
+  draimmenuedit:
+    description: Редактирование панелей в игре.
+    usage: /draimmenuedit [panel]
+    aliases: [dme, dmenue]
+  draimmenulist:
+    description: Отображает список загруженных в данный момент панелей.
+    usage: /draimmenulist
+    aliases: [dml, dmenul]
+  draimmenuimport:
+    description: Импортировать необработанные текстовые панели.
+    usage: /draimmenuimport
+    aliases: [dmi, dmenui]
+permissions:
+  draimmenu.panel.default:
+    default: true
+  draimmenu.other:
+    default: op
+  draimmenu.panel.*:
+    default: op
+  draimmenu.item.*:
+    default: op
+  draimmenu.reload:
+    default: op
+  draimmenu.debug:
+    default: op
+  draimmenu.block.add:
+    default: op
+  draimmenu.block.remove:
+    default: op
+  draimmenu.block.list:
+    default: op
+  draimmenu.generate:
+    default: op
+  draimmenu.version:
+    default: true
+  draimmenu.update:
+    default: op
+  draimmenu.editor:
+    default: true
+  draimmenu.edit:
+    default: op
+  draimmenu.list:
+    default: op
+  draimmenu.import:
+    default: op
