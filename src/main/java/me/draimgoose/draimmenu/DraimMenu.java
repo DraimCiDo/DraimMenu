@@ -5,6 +5,7 @@ import me.draimgoose.draimmenu.api.GUI;
 import me.draimgoose.draimmenu.classresources.ExecuteOpenVoids;
 import me.draimgoose.draimmenu.classresources.GetCustomHeads;
 import me.draimgoose.draimmenu.classresources.ItemCreation;
+import me.draimgoose.draimmenu.ingameeditor.OpenEditorGUI;
 import me.draimgoose.draimmenu.classresources.item_fall.ItemFallManager;
 import me.draimgoose.draimmenu.classresources.placeholders.CreateText;
 import me.draimgoose.draimmenu.classresources.placeholders.HexColours;
@@ -14,7 +15,15 @@ import me.draimgoose.draimmenu.commandtags.CommandTags;
 import me.draimgoose.draimmenu.cutomcommands.CustomsCMD;
 import me.draimgoose.draimmenu.datamanager.DebugManager;
 import me.draimgoose.draimmenu.datamanager.GUIDataLoader;
+import me.draimgoose.draimmenu.generatepanels.DraimMenuGenerate;
+import me.draimgoose.draimmenu.generatepanels.GenUtils;
+import me.draimgoose.draimmenu.generatepanels.TabCompleteGenerate;
+import me.draimgoose.draimmenu.ingameeditor.DMIngameEditor;
+import me.draimgoose.draimmenu.ingameeditor.DMTabCompleteInGame;
+import me.draimgoose.draimmenu.ingameeditor.EditorUserInput;
+import me.draimgoose.draimmenu.ingameeditor.EditorUtils;
 import me.draimgoose.draimmenu.interactives.input.UserInputUtils;
+import me.draimgoose.draimmenu.interactives.DraimMenuRefresher;
 import me.draimgoose.draimmenu.interactives.OpenOnJoin;
 import me.draimgoose.draimmenu.ioclasses.Sequence_1_13;
 import me.draimgoose.draimmenu.ioclasses.Sequence_1_14;
@@ -73,6 +82,7 @@ public class DraimMenu extends JavaPlugin {
     public CreateText tex = new CreateText(this);
     public HexColours hex = new HexColours(this);
 
+    public OpenEditorGUI editorGuis = new OpenEditorGUI(this);
     public ExecuteOpenVoids openVoids = new ExecuteOpenVoids(this);
     public ItemCreation itemCreate = new ItemCreation(this);
     public GetCustomHeads customHeads = new GetCustomHeads(this);
@@ -130,6 +140,8 @@ public class DraimMenu extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         new Metrics(this);
         Objects.requireNonNull(this.getCommand("draimmenu")).setExecutor(new DraimMenu(this));
+        Objects.requireNonNull(this.getCommand("draimmenugenerate")).setTabCompleter(new TabCompleteGenerate(this));
+        Objects.requireNonNull(this.getCommand("draimmenugenerate")).setExecutor(new DraimMenuGenerate(this));
         Objects.requireNonNull(this.getCommand("draimmenureload")).setExecutor(new CommandGUIReload(this));
         Objects.requireNonNull(this.getCommand("draimmenudebug")).setExecutor(new CommandGUIDebug(this));
         Objects.requireNonNull(this.getCommand("draimmenuversion")).setExecutor(new CommandGUIVersion(this));
@@ -139,11 +151,17 @@ public class DraimMenu extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(inventorySaver, this);
         this.getServer().getPluginManager().registerEvents(inputUtils, this);
         this.getServer().getPluginManager().registerEvents(new UtilsGUILoader(this), this);
+        this.getServer().getPluginManager().registerEvents(new GenUtils(this), this);
         this.getServer().getPluginManager().registerEvents(new ItemFallManager(this), this);
         this.getServer().getPluginManager().registerEvents(new OpenOnJoin(this), this);
 
         //загрузка всех встроенных тегов
         commandTags.registerBuiltInTags();
+
+        //если для обновления гуишек установлено значение false, не загружать его
+        if(Objects.requireNonNull(config.getString("config.refresh-gui")).equalsIgnoreCase("true")){
+            this.getServer().getPluginManager().registerEvents(new DraimMenuRefresher(this), this);
+        }
 
         //если для кастом команд установлено значение false, не загружать их
         if(Objects.requireNonNull(config.getString("config.custom-commands")).equalsIgnoreCase("true")){
@@ -155,6 +173,13 @@ public class DraimMenu extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new UtilsOpenWithItem(this), this);
         }
 
+        //если для игрового редактора установлено значение false, не загружать его
+        if(Objects.requireNonNull(config.getString("config.ingame-editor")).equalsIgnoreCase("true")){
+            Objects.requireNonNull(this.getCommand("draimmenuedit")).setTabCompleter(new DMTabCompleteInGame(this));
+            Objects.requireNonNull(this.getCommand("draimmenuedit")).setExecutor(new DMIngameEditor(this));
+            this.getServer().getPluginManager().registerEvents(new EditorUtils(this), this);
+            this.getServer().getPluginManager().registerEvents(new EditorUserInput(this), this);
+        }
 
         //если для блоков установлено значение false, не загружайть их
         if(Objects.requireNonNull(config.getString("config.gui-blocks")).equalsIgnoreCase("true")){
@@ -172,7 +197,6 @@ public class DraimMenu extends JavaPlugin {
         if(getServer().getPluginManager().isPluginEnabled("ChestSort")){
             this.getServer().getPluginManager().registerEvents(new UtilsChestSortEvent(this), this);
         }
-
 
 
         //Авто-обновочка
