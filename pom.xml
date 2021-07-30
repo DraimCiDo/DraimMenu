@@ -6,7 +6,7 @@
 
     <groupId>me.draimgoose</groupId>
     <artifactId>draimmenu</artifactId>
-    <version>1.7</version>
+    <version>1.7.1</version>
     <packaging>jar</packaging>
 
     <name>DraimMenu</name>
@@ -84,6 +84,11 @@
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
+        <!-- ChestSort-API -->
+        <repository>
+            <id>jeff-media-repo</id>
+            <url>https://repo.jeff-media.de/maven2</url>
+        </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -143,6 +148,13 @@
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ChestSort-API -->
+        <dependency>
+            <groupId>de.jeff_media</groupId>
+            <artifactId>ChestSortAPI</artifactId>
+            <version>11.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

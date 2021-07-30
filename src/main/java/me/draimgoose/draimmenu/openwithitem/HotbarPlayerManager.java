@@ -14,7 +14,7 @@ public class HotbarPlayerManager {
         list.put(slot,panel);
     }
 
-    public GUI getPanel(int slot){
+    public GUI getGUI(int slot){
         return list.get(slot).copy();
     }
 }

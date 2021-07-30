@@ -118,7 +118,6 @@ public class ItemCreation {
                         if(!plugin.legacy.LOCAL_VERSION.lessThanOrEqualTo(MinecraftVersions.v1_12)) {
                             try {
                                 assert meta != null;
-                                meta.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(skullname)));
                             } catch (Exception var23) {
                                 p.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.error") + " material: dms= self"));
                                 plugin.debug(var23,p);
@@ -140,7 +139,6 @@ public class ItemCreation {
             if (!skullname.equals("нет головы") && matraw.split("\\s")[0].equalsIgnoreCase("dmo=")) {
                 SkullMeta cpoMeta = (SkullMeta) s.getItemMeta();
                 assert cpoMeta != null;
-                cpoMeta.setOwningPlayer(Bukkit.getOfflinePlayer(Objects.requireNonNull(Bukkit.getPlayer(matraw.split("\\s")[1])).getUniqueId()));
                 s.setItemMeta(cpoMeta);
             }
             if (skullname.equals("hdb")) {
@@ -175,33 +173,6 @@ public class ItemCreation {
                 s = plugin.nbt.setNBT(s);
             }
 
-            if (itemSection.contains("map")) {
-                try{
-                    @SuppressWarnings("deprecation")
-                    MapView map = Bukkit.getServer().getMap(0);
-                    try {
-                        map.getRenderers().clear();
-                        map.setCenterX(30000000);
-                        map.setCenterZ(30000000);
-                    }catch(NullPointerException ignore){
-                    }
-                    if(new File(plugin.getDataFolder().getPath() + File.separator + "maps" + File.separator + itemSection.getString("map")).exists()) {
-                        map.addRenderer(new MapRenderer() {
-                            public void render(MapView view, MapCanvas canvas, Player player) {
-                                canvas.drawImage(0, 0, new ImageIcon(plugin.getDataFolder().getPath() + File.separator + "maps" + File.separator + itemSection.getString("map")).getImage());
-                            }
-                        });
-                        MapMeta meta = (MapMeta) s.getItemMeta();
-                        meta.setMapView(map);
-                        s.setItemMeta(meta);
-                    }else{
-                        p.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.error") + " map: Файл не найден."));
-                    }
-                }catch(Exception map){
-                    p.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.error") + " map: " + itemSection.getString("map")));
-                    plugin.debug(map,p);
-                }
-            }
             if (itemSection.contains("enchanted")) {
                 try {
                     ItemMeta EnchantMeta;
@@ -214,7 +185,6 @@ public class ItemCreation {
                     } else if (!Objects.requireNonNull(itemSection.getString("enchanted")).trim().equalsIgnoreCase("false")) {
                         EnchantMeta = s.getItemMeta();
                         assert EnchantMeta != null;
-                        EnchantMeta.addEnchant(Objects.requireNonNull(Enchantment.getByKey(NamespacedKey.minecraft(Objects.requireNonNull(itemSection.getString("enchanted")).split("\\s")[0].toLowerCase()))), Integer.parseInt(Objects.requireNonNull(itemSection.getString("enchanted")).split("\\s")[1]), true);
                         s.setItemMeta(EnchantMeta);
                     }
                 } catch (Exception ench) {
@@ -225,7 +195,6 @@ public class ItemCreation {
             if (itemSection.contains("customdata")) {
                 ItemMeta customMeta = s.getItemMeta();
                 assert customMeta != null;
-                customMeta.setCustomModelData(Integer.parseInt(plugin.tex.placeholders(gui,position,p,itemSection.getString("customdata"))));
                 s.setItemMeta(customMeta);
             }
             try {
@@ -275,7 +244,6 @@ public class ItemCreation {
                     String effectType = itemSection.getString("potion");
                     assert potionMeta != null;
                     assert effectType != null;
-                    potionMeta.setBasePotionData(new PotionData(PotionType.valueOf(effectType.toUpperCase())));
                     potionMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
                     s.setItemMeta(potionMeta);
                 } catch (Exception er) {
@@ -294,7 +262,6 @@ public class ItemCreation {
                 } else {
                     if(itemSection.getString("damage").equalsIgnoreCase("-1")){
                         ItemMeta unbreak = s.getItemMeta();
-                        unbreak.setUnbreakable(true);
                         s.setItemMeta(unbreak);
                     }
 

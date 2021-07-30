@@ -67,7 +67,7 @@ public class DraimMenuRefresher implements Listener {
                     c=0;
                 }
                 //обновление
-                if(e.getGUIs().isOpen){
+                if(e.getGui().isOpen){
                     if(p.getOpenInventory().getTopInventory().getHolder() != p){
                         //если открытый инвентарь не является панелью (принадлежит владельцу игрока), отменяет
                         this.cancel();

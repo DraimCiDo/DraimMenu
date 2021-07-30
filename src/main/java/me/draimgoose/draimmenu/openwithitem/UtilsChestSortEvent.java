@@ -19,7 +19,7 @@ public class UtilsChestSortEvent implements Listener {
             return;
         }
         //отмена, если гуи открыта у всех
-        if(plugin.openGUIs.hasPanelOpen(e.getPlayer().getName(), GUIPosition.Top)){
+        if(plugin.openGUIs.hasGUIOpen(e.getPlayer().getName(), GUIPosition.Top)){
             e.setCancelled(true);
             return;
         }

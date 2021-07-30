@@ -49,7 +49,7 @@ public class InventorySaver implements Listener {
         if(p == null){
             return;
         }
-        if(plugin.openGUIs.hasGUIOpen(p.getName(), GUIPosition.Middle) || plugin.openGUIs.hasGUIOpen(p.getName(),GUIPosition.Bottom)){
+        if(plugin.openGUIs.hasGUIOpen(p.getName(),GUIPosition.Middle) || plugin.openGUIs.hasGUIOpen(p.getName(),GUIPosition.Bottom)){
             if(position == GUIPosition.Bottom){
                 for(int s = 0; s < 9; s++){
                     p.getInventory().setItem(s,null);

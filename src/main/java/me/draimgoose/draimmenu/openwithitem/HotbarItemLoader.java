@@ -19,7 +19,7 @@ public class HotbarItemLoader {
     }
 
     // Слоты от 0 до 8 для хотбара, в которой используются 9-35 для внутр. инв
-    HashMap<UUID, HotbarItemLoader> stationaryItems = new HashMap<>();
+    HashMap<UUID,HotbarPlayerManager> stationaryItems = new HashMap<>();
 
     // Компиляция списка массивов (слот 0-4 и индекс имён гуишек)
     public void reloadHotbarSlots() {
@@ -117,24 +117,25 @@ public class HotbarItemLoader {
         }
 
         // Удаление старых предметов в хотбаре
-        stationaryItems.put(p.getUniqueId(), new HotbarItemLoader());
+        stationaryItems.put(p.getUniqueId(),new HotbarPlayerManager());
         for(int i = 0; i <= 35; i++){
             try {
                 if (plugin.nbt.getNBT(p.getInventory().getItem(i), "DraimMenuHotbar") != null) {
-                    p.getInventory().setItem(i, new ItemStack(Material.AIR));
+                    p.getInventory().setItem(i,new ItemStack(Material.AIR));
                 }
             }catch(NullPointerException | IllegalArgumentException ignore){}
         }
 
         // Добавление новых предметов в хотбар
         for(GUI gui : plugin.guiList) {
-            if(!plugin.guiPerms.isGUIWorldEnabled(p,gui.getConfig())){ // Будет чекать все файлы в папке
+            if(!plugin.guiPerms.isGUIWorldEnabled(p,gui.getConfig())){
                 continue;
             }
-            if(p.hasPermission("draimemenu.gui." + gui.getConfig().getStings("perm")) && gui.hasHotbarItem()) {
+            if (p.hasPermission("draimmenu.gui." + gui.getConfig().getString("perm")) && gui.hasHotbarItem()) {
                 ItemStack s = gui.getHotbarItem(p);
                 if(gui.getHotbarSection(p).contains("stationary")) {
-
+                    p.getInventory().setItem(gui.getHotbarSection(p).getInt("stationary"),s);
+                    stationaryItems.get(p.getUniqueId()).addSlot(gui.getHotbarSection(p).getInt("stationary"),gui);
                 }
             }
         }

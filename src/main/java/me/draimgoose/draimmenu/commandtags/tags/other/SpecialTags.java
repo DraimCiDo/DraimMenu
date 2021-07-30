@@ -22,7 +22,7 @@ public class SpecialTags implements Listener {
     public void commandTag(CommandTagEvent e){
         if(e.name.equalsIgnoreCase("open=")) {
             e.commandTagUsed();
-            String panelName = e.args[0];
+            String guiName = e.args[0];
             String cmd = String.join(" ",e.args).replace(e.args[0] + " ","").trim();
 
             GUI openGUIs = null;

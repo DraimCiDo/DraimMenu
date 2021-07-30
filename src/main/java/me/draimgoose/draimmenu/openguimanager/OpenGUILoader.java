@@ -27,17 +27,17 @@ public class OpenGUILoader {
     public GUI getOpenGUI(String playerName, GUIPosition position){
         for(Map.Entry<String, GUIInterface> entry : openGUIs.entrySet()){
             if(entry.getKey().equals(playerName)){
-                return entry.getValue().getGUI(position);
+                return entry.getValue().getGui(position);
             }
         }
         return null;
     }
 
     //true если у игрока в локации открыта соответствующая gui
-    public boolean hasGUIOpen(String playerName, String panelName, GUIPosition position){
+    public boolean hasGUIOpen(String playerName, String guiName, GUIPosition position){
         for(Map.Entry<String, GUIInterface> entry : openGUIs.entrySet()){
             try {
-                if (entry.getKey().equals(playerName) && entry.getValue().getGUI(position).getName().equals(guiName)) {
+                if (entry.getKey().equals(playerName) && entry.getValue().getGui(position).getName().equals(guiName)) {
                     return true;
                 }
             }catch (NullPointerException ex){
@@ -51,7 +51,7 @@ public class OpenGUILoader {
     public boolean hasGUIOpen(String playerName, GUIPosition position) {
         for(Map.Entry<String, GUIInterface> entry : openGUIs.entrySet()){
             try {
-                if(entry.getKey().equals(playerName) && entry.getValue().getGUI(position) != null){
+                if(entry.getKey().equals(playerName) && entry.getValue().getGui(position) != null){
                     return true;
                 }
             }catch (NullPointerException ex){
@@ -66,8 +66,8 @@ public class OpenGUILoader {
         if(!openGUIs.containsKey(playerName)){
             openGUIs.put(playerName, new GUIInterface(playerName));
         }
-        openGUIs.get(playerName).setGUI(gui,position);
-        openGUIs.get(playerName).getGUI(position).isOpen = true;
+        openGUIs.get(playerName).setGui(gui,position);
+        openGUIs.get(playerName).getGui(position).isOpen = true;
         if (plugin.config.contains("config.gui-snooper")) {
             if (Objects.requireNonNull(plugin.config.getString("config.gui-snooper")).trim().equalsIgnoreCase("true")) {
                 Bukkit.getConsoleSender().sendMessage("(DraimMenu) " + playerName + " Открыто" + gui.getName() + " на " + position);
@@ -80,22 +80,22 @@ public class OpenGUILoader {
         if(!openGUIs.containsKey(playerName) || skipGUIClose.contains(playerName)){
             return;
         }
-        GUICloseCommands(playerName,position,openGUIs.get(playerName).getGUI(position));
+        GUICloseCommands(playerName,position,openGUIs.get(playerName).getGui(position));
         if (plugin.config.contains("config.gui-snooper")) {
             if (Objects.requireNonNull(plugin.config.getString("config.gui-snooper")).equalsIgnoreCase("true")) {
-                Bukkit.getConsoleSender().sendMessage("(DraimMenu) " + playerName + " Закрыто " + openGUIs.get(playerName).getGUI(position).getName() + " на " + position);
+                Bukkit.getConsoleSender().sendMessage("(DraimMenu) " + playerName + " Закрыто " + openGUIs.get(playerName).getGui(position).getName() + " на " + position);
             }
         }
 
         //событие с закрытыми gui
-        GUIClosedEvent closedEvent = new GUIClosedEvent(Bukkit.getPlayer(playerName),openGUis.get(playerName).getGUI(position),position);
+        GUIClosedEvent closedEvent = new GUIClosedEvent(Bukkit.getPlayer(playerName),openGUIs.get(playerName).getGui(position),position);
         Bukkit.getPluginManager().callEvent(closedEvent);
 
-        openGUIs.get(playerName).setGUI(null,position);
+        openGUIs.get(playerName).setGui(null,position);
         //снимает, если все gui закрыты или если верхняя gui закрыта
         if(openGUIs.get(playerName).allClosed()){
             removePlayer(playerName);
-        }else if(openGUIs.get(playerName).getGUI(GUIPosition.Top) == null){
+        }else if(openGUIs.get(playerName).getGui(GUIPosition.Top) == null){
             removePlayer(playerName);
         }
 
@@ -105,9 +105,9 @@ public class OpenGUILoader {
 
     //удаляет игрока с карты открытых gui
     public void removePlayer(String playerName){
-        openGUIs.get(playerName).setGUI(null,GUIPosition.Top);
-        openGUIs.get(playerName).setGUI(null,GUIPosition.Middle);
-        openGUIs.get(playerName).setGUI(null,GUIPosition.Bottom);
+        openGUIs.get(playerName).setGui(null,GUIPosition.Top);
+        openGUIs.get(playerName).setGui(null,GUIPosition.Middle);
+        openGUIs.get(playerName).setGui(null,GUIPosition.Bottom);
         openGUIs.remove(playerName);
     }
 

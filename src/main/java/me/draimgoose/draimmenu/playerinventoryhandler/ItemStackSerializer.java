@@ -37,7 +37,7 @@ public class ItemStackSerializer {
         return null;
     }
 
-    public ItemStack[] itemStackArrayToBase64(String data) {
+    public ItemStack[] itemStackArrayFromBase64(String data) {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);

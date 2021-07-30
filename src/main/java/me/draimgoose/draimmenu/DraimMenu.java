@@ -144,7 +144,7 @@ public class DraimMenu extends JavaPlugin {
         this.setupEconomy();
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         new Metrics(this);
-        Objects.requireNonNull(this.getCommand("draimmenu")).setExecutor(new DraimMenu(this));
+        Objects.requireNonNull(this.getCommand("draimmenu")).setExecutor(new CommandGUI(this));
         Objects.requireNonNull(this.getCommand("draimmenu")).setTabCompleter(new DMTabComplete(this));
         Objects.requireNonNull(this.getCommand("draimmenugenerate")).setTabCompleter(new TabCompleteGenerate(this));
         Objects.requireNonNull(this.getCommand("draimmenugenerate")).setExecutor(new DraimMenuGenerate(this));

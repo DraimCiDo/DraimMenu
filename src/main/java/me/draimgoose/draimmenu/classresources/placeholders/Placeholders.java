@@ -172,21 +172,6 @@ public class Placeholders {
                 return "";
             }
         }
-        if(identifier.startsWith("modeldata-")) {
-            try {
-                String matNumber = identifier.replace("modeldata-", "");
-                int modelData;
-                try {
-                    modelData = p.getOpenInventory().getTopInventory().getItem((int)Double.parseDouble(matNumber)).getItemMeta().getCustomModelData();
-                } catch (NullPointerException er) {
-                    modelData = 0;
-                }
-                return String.valueOf(modelData);
-            }catch(Exception ex){
-                plugin.debug(ex,p);
-                return "";
-            }
-        }
         if(identifier.startsWith("damaged-")) {
             try {
                 String matNumber = identifier.replace("damaged-", "");
@@ -221,26 +206,6 @@ public class Placeholders {
                 if(itm == null){
                     return "false";
                 }
-
-                try {
-                    ItemStack confItm = plugin.itemCreate.makeItemFromConfig(gui,position,gui.getConfig().getConfigurationSection("custom-item." + matLoc),p,true,true, false);
-                    if(plugin.itemCreate.isIdentical(confItm,itm)){
-                        isIdentical = true;
-                    }
-
-                    String customItemMaterial = gui.getConfig().getString("custom-item." + matLoc + ".material");
-                    if (plugin.getServer().getPluginManager().isPluginEnabled("MMOItems") && customItemMaterial.startsWith("mmo=")) {
-                        String mmoType = customItemMaterial.split("\\s")[1];
-                        String mmoID = customItemMaterial.split("\\s")[2];
-
-                        if (plugin.isMMOItem(itm,mmoType,mmoID) && itm.getAmount() <= confItm.getAmount()) {
-                            isIdentical = true;
-                        }
-                    }
-                } catch (NullPointerException er) {
-                    isIdentical = false;
-                }
-
                 return String.valueOf(isIdentical);
             }catch(Exception ex){
                 plugin.debug(ex,p);
