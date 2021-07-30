@@ -42,6 +42,7 @@ import me.draimgoose.draimmenu.guiblocks.DraimMenuBlocks;
 import me.draimgoose.draimmenu.guiblocks.GUIBlockOnClick;
 import me.draimgoose.draimmenu.playerinventoryhandler.InventorySaver;
 import me.draimgoose.draimmenu.playerinventoryhandler.ItemStackSerializer;
+import me.draimgoose.draimmenu.updater.Updater;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -87,6 +88,7 @@ public class DraimMenu extends JavaPlugin {
     public ExecuteOpenVoids openVoids = new ExecuteOpenVoids(this);
     public ItemCreation itemCreate = new ItemCreation(this);
     public GetCustomHeads customHeads = new GetCustomHeads(this);
+    public Updater updater = new Updater(this);
     public PlayerHeads getHeads = new PlayerHeads(this);
     public LegacyVersion legacy = new LegacyVersion(this);
 
@@ -106,6 +108,8 @@ public class DraimMenu extends JavaPlugin {
     public void onEnable() {
         Bukkit.getLogger().info("DraimMenu v" + this.getDescription().getVersion() + " Загрузка плагина...");
 
+        //просьба о обновлении версии на последнюю версию
+        updater.githubNewUpdate(false);
 
         //Регистрация конфигов
         this.blockConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "blocks.yml"));
@@ -150,6 +154,7 @@ public class DraimMenu extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("draimmenulist")).setExecutor(new CommandGUIList(this));
         Objects.requireNonNull(this.getCommand("draimmenuimport")).setExecutor(new CommandGUIImport(this));
         this.getServer().getPluginManager().registerEvents(new Utils(this), this);
+        this.getServer().getPluginManager().registerEvents(updater, this);
         this.getServer().getPluginManager().registerEvents(inventorySaver, this);
         this.getServer().getPluginManager().registerEvents(inputUtils, this);
         this.getServer().getPluginManager().registerEvents(new UtilsGUILoader(this), this);
@@ -200,6 +205,9 @@ public class DraimMenu extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new UtilsChestSortEvent(this), this);
         }
 
+        if (Objects.requireNonNull(this.config.getString("config.update-notifications")).equalsIgnoreCase("true")) {
+            updater.githubNewUpdate(true);
+        }
 
         //Авто-обновочка
         reloadGUIFiles();
@@ -235,6 +243,7 @@ public class DraimMenu extends JavaPlugin {
         //сохранение файлов
         guiData.saveDataFile();
         inventorySaver.saveInventoryFile();
+        updater.autoUpdatePlugin(this.getFile().getName());
         Bukkit.getLogger().info("DraimMenu успешно выключен.");
     }
 
