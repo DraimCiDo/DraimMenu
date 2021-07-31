@@ -20,7 +20,7 @@ public class GUICommandEvent extends Event {
         return this.p;
     }
 
-    public GUI getGui(){
+    public GUI getGUI(){
         return this.gui;
     }
 

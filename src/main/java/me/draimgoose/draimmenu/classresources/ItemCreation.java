@@ -385,36 +385,36 @@ public class ItemCreation {
             cont = inv.getItem(i);
             try{
                 if(cont == null){
-                    if(file.contains("guis." + guiName + ".item." + i)){
-                        if(!file.getString("guis." + guiName + ".item." + i + ".material").equalsIgnoreCase("AIR")) {
-                            file.set("guis." + guiName + ".item." + i, null);
+                    if(file.contains("gui." + guiName + ".item." + i)){
+                        if(!file.getString("gui." + guiName + ".item." + i + ".material").equalsIgnoreCase("AIR")) {
+                            file.set("gui." + guiName + ".item." + i, null);
                             continue;
                         }
                     }
                 }
                 if(plugin.legacy.LOCAL_VERSION.lessThanOrEqualTo(MinecraftVersions.v1_12)){
                     if (cont.getDurability() != 0 && !cont.getType().toString().equals("SKULL_ITEM")) {
-                        file.set("guis." + guiName + ".item." + i + ".ID", cont.getDurability());
+                        file.set("gui." + guiName + ".item." + i + ".ID", cont.getDurability());
                     }
                 }
                 if(file.contains("guis." + guiName + ".item." + i + ".material")){
-                    if(Objects.requireNonNull(file.getString("guis." + guiName + ".item." + i + ".material")).contains("%") || Objects.requireNonNull(file.getString("guis." + guiName + ".item." + i + ".material")).contains("=")){
+                    if(Objects.requireNonNull(file.getString("gui." + guiName + ".item." + i + ".material")).contains("%") || Objects.requireNonNull(file.getString("gui." + guiName + ".item." + i + ".material")).contains("=")){
                         if(!plugin.getHeads.ifSkullOrHead(cont.getType().toString())){
-                            file.set("guis." + guiName + ".item." + i + ".material", cont.getType().toString());
+                            file.set("gui." + guiName + ".item." + i + ".material", cont.getType().toString());
                         }
                     }else{
-                        file.set("guis." + guiName + ".item." + i + ".material", cont.getType().toString());
+                        file.set("gui." + guiName + ".item." + i + ".material", cont.getType().toString());
                     }
                 }else{
-                    file.set("guis." + guiName + ".item." + i + ".material", cont.getType().toString());
+                    file.set("gui." + guiName + ".item." + i + ".material", cont.getType().toString());
                 }
                 if(plugin.getHeads.ifSkullOrHead(cont.getType().toString())){
-                    if(!Objects.requireNonNull(file.getString("guis." + guiName + ".item." + i + ".material")).contains("%") && !Objects.requireNonNull(file.getString("guis." + guiName + ".item." + i + ".material")).contains("=")) {
+                    if(!Objects.requireNonNull(file.getString("gui." + guiName + ".item." + i + ".material")).contains("%") && !Objects.requireNonNull(file.getString("gui." + guiName + ".item." + i + ".material")).contains("=")) {
                         SkullMeta meta = (SkullMeta) cont.getItemMeta();
                         if (plugin.customHeads.getHeadBase64(cont) != null && !plugin.legacy.LOCAL_VERSION.lessThanOrEqualTo(MinecraftVersions.v1_12)) {
-                            file.set("guis." + guiName + ".item." + i + ".material", "dms= " + plugin.customHeads.getHeadBase64(cont));
+                            file.set("gui." + guiName + ".item." + i + ".material", "dms= " + plugin.customHeads.getHeadBase64(cont));
                         } else if (meta.hasOwner()) {
-                            file.set("guis." + guiName + ".item." + i + ".material", "dms= " + meta.getOwner());
+                            file.set("gui." + guiName + ".item." + i + ".material", "dms= " + meta.getOwner());
                         }
                     }
                 }
@@ -424,16 +424,16 @@ public class ItemCreation {
                     for(Pattern pattern : bannerMeta.getPatterns()) {
                         dyePattern.add(pattern.getColor().toString() + "," + pattern.getPattern().toString());
                     }
-                    file.set("guis." + guiName + ".item." + i + ".banner", dyePattern);
+                    file.set("gui." + guiName + ".item." + i + ".banner", dyePattern);
                 }catch(Exception ignore){
-                    file.set("guis." + guiName + ".item." + i + ".banner", null);
+                    file.set("gui." + guiName + ".item." + i + ".banner", null);
                 }
-                file.set("guis." + guiName + ".item." + i + ".stack", cont.getAmount());
+                file.set("gui." + guiName + ".item." + i + ".stack", cont.getAmount());
                 if(!cont.getEnchantments().isEmpty()){
-                    file.set("guis." + guiName + ".item." + i + ".enchanted", "true");
+                    file.set("gui." + guiName + ".item." + i + ".enchanted", "true");
                 }
-                file.set("guis." + guiName + ".item." + i + ".name", Objects.requireNonNull(cont.getItemMeta()).getDisplayName());
-                file.set("guis." + guiName + ".item." + i + ".lore", Objects.requireNonNull(cont.getItemMeta()).getLore());
+                file.set("gui." + guiName + ".item." + i + ".name", Objects.requireNonNull(cont.getItemMeta()).getDisplayName());
+                file.set("gui." + guiName + ".item." + i + ".lore", Objects.requireNonNull(cont.getItemMeta()).getLore());
             }catch(Exception n){
             }
         }

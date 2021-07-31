@@ -20,7 +20,6 @@ public class DraimMenuBlocks implements CommandExecutor {
     DraimMenu plugin;
     public DraimMenuBlocks(DraimMenu pl) { this.plugin = pl; }
 
-    @EventHandler
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (label.equalsIgnoreCase("dmb") || label.equalsIgnoreCase("draimmenublock") || label.equalsIgnoreCase("dmenub")) {
             if(args.length >= 2) {

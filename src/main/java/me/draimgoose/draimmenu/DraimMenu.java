@@ -100,13 +100,23 @@ public class DraimMenu extends JavaPlugin {
     public ItemStackSerializer itemSerializer = new ItemStackSerializer(this);
     public UserInputUtils inputUtils = new UserInputUtils(this);
 
-    public File guiSF = new File(this.getDataFolder() + File.separator + "guis");
+    public File guiSF = new File(this.getDataFolder() + File.separator + "gui");
     public YamlConfiguration blockConfig;
 
     public void onEnable() {
         Bukkit.getLogger().info("DraimMenu v" + this.getDescription().getVersion() + " Загрузка плагина...");
 
         updater.githubNewUpdate(false);
+
+        File guiSF = new File(getDataFolder() + File.separator + "gui");
+        if(!guiSF.exists()) {
+            try {
+                guiSF.mkdirs();
+                guiSF.createNewFile();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
 
         this.blockConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "blocks.yml"));
         guiData.dataConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "data.yml"));
@@ -277,7 +287,7 @@ public class DraimMenu extends JavaPlugin {
 
     public boolean checkGUIs(YamlConfiguration temp) {
         try {
-            return temp.contains("guis");
+            return temp.contains("gui");
         } catch (Exception var3) {
             return false;
         }
@@ -320,12 +330,11 @@ public class DraimMenu extends JavaPlugin {
                 continue;
             }
 
-            //проверка перед добавлением файлов
             if(!checkGUIs(YamlConfiguration.loadConfiguration(new File(directory + File.separator + fileName)))){
                 this.getServer().getConsoleSender().sendMessage("(DraimMenu)" + ChatColor.RED + " Ошибка в: " + fileName);
                 continue;
             }
-            for (String tempName : Objects.requireNonNull(YamlConfiguration.loadConfiguration(new File(directory + File.separator + fileName)).getConfigurationSection("guis")).getKeys(false)) {
+            for (String tempName : Objects.requireNonNull(YamlConfiguration.loadConfiguration(new File(directory + File.separator + fileName)).getConfigurationSection("gui")).getKeys(false)) {
                 guiList.add(new GUI(new File((directory + File.separator + fileName)),tempName));
                 if(YamlConfiguration.loadConfiguration(new File(directory + File.separator + fileName)).contains("gui." + tempName + ".open-with-item")) {
                     openWithItem = true;
@@ -337,7 +346,6 @@ public class DraimMenu extends JavaPlugin {
     public void reloadGUIFiles() {
         guiList.clear();
         openWithItem = false;
-        //загрузка гуишек
         fileNamesFromDirectory(guiSF);
     }
 

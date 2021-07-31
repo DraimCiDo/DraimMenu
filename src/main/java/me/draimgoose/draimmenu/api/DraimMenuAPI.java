@@ -42,16 +42,16 @@ public class DraimMenuAPI {
     }
 
     public void removeGUI(GUI gui){
-        for(GUI gui1 : plugin.guiList){
-            if(gui1.getName().equals(gui.getName())){
-                if(gui1.getFile().delete()){
+        for(GUI guis : plugin.guiList){
+            if(guis.getName().equals(gui.getName())){
+                if(guis.getFile().delete()){
                     plugin.reloadGUIFiles();
                 }
             }
         }
     }
 
-    public GUI getGui(String guiName){
+    public GUI getGUI(String guiName){
         for(GUI gui : plugin.guiList) {
             if(gui.getName().equals(guiName)) {
                 return gui;

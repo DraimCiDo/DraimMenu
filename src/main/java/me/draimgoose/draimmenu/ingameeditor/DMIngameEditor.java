@@ -20,7 +20,6 @@ public class DMIngameEditor implements CommandExecutor {
         this.plugin = pl;
     }
 
-    @EventHandler
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(!sender.hasPermission("draimmenu.edit")){
             sender.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.perms")));
