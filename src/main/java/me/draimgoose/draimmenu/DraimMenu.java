@@ -205,7 +205,7 @@ public class DraimMenu extends JavaPlugin {
             }
         }));
 
-//        tag = tex.colour(config.getString("config.format.tag") + " ");
+        tag = tex.colour(config.getString("config.format.tag") + " ");
 
         Bukkit.getLogger().info("DraimMenu v" + this.getDescription().getVersion() + " Плагин запушен!");
     }
