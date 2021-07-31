@@ -46,7 +46,7 @@ public class CommandGUIImport implements CommandExecutor {
         try {
             URL fileUrl = new URL(url);
             in = new BufferedInputStream(fileUrl.openStream());
-            fout = new FileOutputStream(new File(plugin.guisf, fileName + ".yml"));
+            fout = new FileOutputStream(new File(plugin.guiSF, fileName + ".yml"));
             byte[] data = new byte[1024];
 
             int count;

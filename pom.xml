@@ -6,7 +6,7 @@
 
     <groupId>me.draimgoose</groupId>
     <artifactId>draimmenu</artifactId>
-    <version>1.7.1</version>
+    <version>1.7.4</version>
     <packaging>jar</packaging>
 
     <name>DraimMenu</name>
@@ -96,13 +96,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Bukkit-API -->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Minecraft-API -->
         <dependency>
             <groupId>com.mojang</groupId>
@@ -156,6 +149,17 @@
             <artifactId>ChestSortAPI</artifactId>
             <version>11.0.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- Apache-API -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
         </dependency>
     </dependencies>
 </project>

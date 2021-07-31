@@ -30,7 +30,7 @@ public class DraimMenuAPI {
     }
 
     public void addGUI(GUI gui) throws IOException{
-        File addedFile = new File(plugin.guisf + File.separator + gui.getName() + ".yml");
+        File addedFile = new File(plugin.guiSF + File.separator + gui.getName() + ".yml");
         YamlConfiguration newYaml = new YamlConfiguration();
         if(gui.getConfig().contains("gui")){
             newYaml.set("",gui.getConfig());

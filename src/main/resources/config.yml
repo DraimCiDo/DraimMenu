@@ -18,10 +18,10 @@ config:
   update-notifications: true
   gui-snooper: false
   format:
-    tag: '&8(&cDMenu&8) &8> &7'
+    tag: '&8(&cDMenu&8) &8> '
     perms: 'У вас нет прав.'
     reload: 'Перезагружено.'
-    nogui: 'Меню не найдено.'
+    nomenu: 'Меню не найдено.'
     noitem: 'На панели нет кликабельного элемента.'
     notitem: 'Игрок не найден.'
     error: 'Найдена ошибка в конфигурации.'

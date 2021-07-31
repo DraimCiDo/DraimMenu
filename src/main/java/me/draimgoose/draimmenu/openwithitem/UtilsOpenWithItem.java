@@ -121,9 +121,9 @@ public class UtilsOpenWithItem implements Listener {
         Player p = e.getPlayer();
         ItemStack clicked;
         if(Bukkit.getVersion().contains("1.8")){
-            clicked =  new GetItemInHand_Legacy(plugin).itemInHand(p);
+            clicked =  new GetItemInhand_Legacy(plugin).itemInHand(p);
         }else{
-            clicked = new GetItemInHand(plugin).itemInHand(p);
+            clicked = new GetItemInhand(plugin).itemInHand(p);
         }
         if(plugin.hotbar.itemCheckExecute(clicked,p,true,false)){
             e.setCancelled(true);

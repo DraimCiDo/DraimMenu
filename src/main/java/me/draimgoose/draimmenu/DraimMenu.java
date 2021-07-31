@@ -67,16 +67,14 @@ import java.util.concurrent.Callable;
 public class DraimMenu extends JavaPlugin {
     public YamlConfiguration config;
     public Economy econ = null;
-    public boolean openWithItem = false; //это будет верно, если есть панель с открытым элементом
+    public boolean openWithItem = false;
 
-    //ТЕГ
     public String tag = "&8(&cDMenu&8) &8> ";
 
-    public List<Player> generateMode = new ArrayList<>(); //игроки, которые в данный момент находятся в режиме генерации
+    public List<Player> generateMode = new ArrayList<>();
     public List<String[]> editorInputStrings = new ArrayList<>();
-    public List<GUI> guiList = new ArrayList<>(); //содержит все панели, включенные в папку панели
+    public List<GUI> guiList = new ArrayList<>();
 
-    //получение альтернативных классов
     public CommandTags commandTags = new CommandTags(this);
     public GUIDataLoader guiData = new GUIDataLoader(this);
     public Placeholders placeholders = new Placeholders(this);
@@ -84,7 +82,7 @@ public class DraimMenu extends JavaPlugin {
     public CreateText tex = new CreateText(this);
     public HexColours hex = new HexColours(this);
 
-    public OpenEditorGUI editorGuis = new OpenEditorGUI(this);
+    public OpenEditorGUI editorGUI = new OpenEditorGUI(this);
     public ExecuteOpenVoids openVoids = new ExecuteOpenVoids(this);
     public ItemCreation itemCreate = new ItemCreation(this);
     public GetCustomHeads customHeads = new GetCustomHeads(this);
@@ -102,25 +100,21 @@ public class DraimMenu extends JavaPlugin {
     public ItemStackSerializer itemSerializer = new ItemStackSerializer(this);
     public UserInputUtils inputUtils = new UserInputUtils(this);
 
-    public File guisf = new File(this.getDataFolder() + File.separator + "guis");
-    public YamlConfiguration blockConfig; //где хранятся местоположения блоков панелей
+    public File guiSF = new File(this.getDataFolder() + File.separator + "guis");
+    public YamlConfiguration blockConfig;
 
     public void onEnable() {
         Bukkit.getLogger().info("DraimMenu v" + this.getDescription().getVersion() + " Загрузка плагина...");
 
-        //просьба о обновлении версии на последнюю версию
         updater.githubNewUpdate(false);
 
-        //Регистрация конфигов
         this.blockConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "blocks.yml"));
         guiData.dataConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "data.yml"));
         inventorySaver.inventoryConfig = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "inventories.yml"));
         this.config = YamlConfiguration.loadConfiguration(new File(this.getDataFolder() + File.separator + "config.yml"));
 
-        //Сохранение config.yml
         File configFile = new File(this.getDataFolder() + File.separator + "config.yml");
         if (!configFile.exists()) {
-            //создание нового конфига, если его нету
             try {
                 FileConfiguration configFileConfiguration = YamlConfiguration.loadConfiguration(getReaderFromStream(this.getResource("config.yml")));
                 configFileConfiguration.save(configFile);
@@ -129,7 +123,6 @@ public class DraimMenu extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage("(DMenu) >" + ChatColor.RED + "ПРЕДУПРЕЖДЕНИЕ: Не удалось сохранить файл конфигурации!");
             }
         }else{
-            //проверка конфига на отсутствующие элементы
             try {
                 YamlConfiguration configFileConfiguration = YamlConfiguration.loadConfiguration(getReaderFromStream(this.getResource("config.yml")));
                 this.config.addDefaults(configFileConfiguration);
@@ -140,7 +133,6 @@ public class DraimMenu extends JavaPlugin {
             }
         }
 
-        // установка класс файлов
         this.setupEconomy();
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         new Metrics(this);
@@ -162,25 +154,20 @@ public class DraimMenu extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ItemFallManager(this), this);
         this.getServer().getPluginManager().registerEvents(new OpenOnJoin(this), this);
 
-        //загрузка всех встроенных тегов
         commandTags.registerBuiltInTags();
 
-        //если для обновления гуишек установлено значение false, не загружать его
         if(Objects.requireNonNull(config.getString("config.refresh-gui")).equalsIgnoreCase("true")){
             this.getServer().getPluginManager().registerEvents(new DraimMenuRefresher(this), this);
         }
 
-        //если для кастом команд установлено значение false, не загружать их
         if(Objects.requireNonNull(config.getString("config.custom-commands")).equalsIgnoreCase("true")){
             this.getServer().getPluginManager().registerEvents(new CustomsCMD(this), this);
         }
 
-        //если для элементов хотбара установлено значение false, не загружать его
         if(Objects.requireNonNull(config.getString("config.hotbar-items")).equalsIgnoreCase("true")){
             this.getServer().getPluginManager().registerEvents(new UtilsOpenWithItem(this), this);
         }
 
-        //если для игрового редактора установлено значение false, не загружать его
         if(Objects.requireNonNull(config.getString("config.ingame-editor")).equalsIgnoreCase("true")){
             Objects.requireNonNull(this.getCommand("draimmenuedit")).setTabCompleter(new DMTabCompleteInGame(this));
             Objects.requireNonNull(this.getCommand("draimmenuedit")).setExecutor(new DMIngameEditor(this));
@@ -188,19 +175,16 @@ public class DraimMenu extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new EditorUserInput(this), this);
         }
 
-        //если для блоков установлено значение false, не загружайть их
         if(Objects.requireNonNull(config.getString("config.gui-blocks")).equalsIgnoreCase("true")){
-            Objects.requireNonNull(this.getCommand("draimmenulock")).setExecutor(new DraimMenuBlocks(this));
+            Objects.requireNonNull(this.getCommand("draimmenublock")).setExecutor(new DraimMenuBlocks(this));
             Objects.requireNonNull(this.getCommand("draimmenublock")).setTabCompleter(new BlocksTabComplete(this));
             this.getServer().getPluginManager().registerEvents(new GUIBlockOnClick(this), this);
         }
 
-        //если MC 1.8, не использовать это
         if (!Bukkit.getVersion().contains("1.8")) {
             this.getServer().getPluginManager().registerEvents(new SwapItemEvent(this), this);
         }
 
-        //если включен плуг ChestSort
         if(getServer().getPluginManager().isPluginEnabled("ChestSort")){
             this.getServer().getPluginManager().registerEvents(new UtilsChestSortEvent(this), this);
         }
@@ -209,30 +193,24 @@ public class DraimMenu extends JavaPlugin {
             updater.githubNewUpdate(true);
         }
 
-        //Авто-обновочка
         reloadGUIFiles();
 
-        //создание хотбар элементов
         hotbar.reloadHotbarSlots();
 
-        //добавление кастомных диаграмм bStats
         Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.SingleLineChart("gui_amount", new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                //это общее количество загруженных панелей
                 return guiList.size();
             }
         }));
 
-        //тег
-        tag = tex.colour(config.getString("config.format.tag") + " ");
+//        tag = tex.colour(config.getString("config.format.tag") + " ");
 
         Bukkit.getLogger().info("DraimMenu v" + this.getDescription().getVersion() + " Плагин запушен!");
     }
 
     public void onDisable() {
-        //Закрытие всех гуишек
         for(String name : openGUIs.openGUIs.keySet()){
             openGUIs.closeGUIForLoader(name, GUIPosition.Top);
             try {
@@ -240,7 +218,6 @@ public class DraimMenu extends JavaPlugin {
             }catch (Exception ignore){}
         }
 
-        //сохранение файлов
         guiData.saveDataFile();
         inventorySaver.saveInventoryFile();
         updater.autoUpdatePlugin(this.getFile().getName());
@@ -254,7 +231,6 @@ public class DraimMenu extends JavaPlugin {
     public ItemStack setName(GUI gui, ItemStack renamed, String customName, List<String> lore, Player p, Boolean usePlaceholders, Boolean useColours, Boolean hideAttributes) {
         try {
             ItemMeta renamedMeta = renamed.getItemMeta();
-            //установка плейсхолдера
             if(usePlaceholders){
                 customName = tex.placeholdersNoColour(gui,GUIPosition.Top,p,customName);
             }
@@ -263,7 +239,6 @@ public class DraimMenu extends JavaPlugin {
             }
 
             assert renamedMeta != null;
-            //скрытие атрибутов, которые добовляют NBT тег
             if(hideAttributes) {
                 renamedMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             }
@@ -308,31 +283,27 @@ public class DraimMenu extends JavaPlugin {
         }
     }
 
-    //проверка на одинаковые имена гуишек
     public boolean checkDuplicateGUI(CommandSender sender){
         ArrayList<String> agui = new ArrayList<>();
         for(GUI gui : guiList){
             agui.add(gui.getName());
         }
 
-        //имена - это список названий гуишек
         Set<String> oset = new HashSet<String>(agui);
         if (oset.size() < agui.size()) {
-            //если есть одинаковые имена гуишек
-            ArrayList<String> oguiTemp = new ArrayList<String>();
+            ArrayList<String> oGUITemp = new ArrayList<String>();
             for(String tempName : agui){
-                if(oguiTemp.contains(tempName)){
+                if(oGUITemp.contains(tempName)){
                     sender.sendMessage(tex.colour(tag) + ChatColor.RED + " Повторное название GUI-панели: " + tempName);
                     return false;
                 }
-                oguiTemp.add(tempName);
+                oGUITemp.add(tempName);
             }
             return false;
         }
         return true;
     }
 
-    //просмотр всех файлов во всех папках
     public void fileNamesFromDirectory(File directory) {
         for (String fileName : Objects.requireNonNull(directory.list())) {
             if(new File(directory + File.separator + fileName).isDirectory()){
@@ -367,7 +338,7 @@ public class DraimMenu extends JavaPlugin {
         guiList.clear();
         openWithItem = false;
         //загрузка гуишек
-        fileNamesFromDirectory(guisf);
+        fileNamesFromDirectory(guiSF);
     }
 
     public void debug(Exception e, Player p) {
@@ -453,7 +424,6 @@ public class DraimMenu extends JavaPlugin {
         }
     }
 
-    //разделенее списков с использованием символа \n
     public List<String> splitListWithEscape(List<String> list){
         List<String> output = new ArrayList<>();
         for(String str : list){

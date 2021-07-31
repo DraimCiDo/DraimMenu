@@ -6,7 +6,7 @@ authors: [ DraimGooSe ]
 description: Плагин на создание GUI-панелей от DraimGooSe
 softdepend: [PlaceholderAPI, Vault, HeadDatabase, TokenManager, VotingPlugin, MMOItems, CustomItems, ChestSort]
 commands:
-  draimemnu:
+  draimmenu:
     description: Открыть командой GUI-панель
     usage: /draimmenu <panel> [player:item] [player]
     aliases: [dm, dmenu]
@@ -18,7 +18,7 @@ commands:
     description: Включение и отключение режима отладки
     usage: /draimmenudebug
     aliases: [dmd, dmenud]
-  draimenublock:
+  draimmenublock:
     description: Добавить или удалить панели из просматриваемых блоков.
     usage: /draimemnublock
     aliases: [dmb, dmenub]

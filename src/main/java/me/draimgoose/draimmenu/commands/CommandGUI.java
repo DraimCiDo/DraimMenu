@@ -12,12 +12,10 @@ import org.bukkit.event.EventHandler;
 
 public class CommandGUI implements CommandExecutor {
     DraimMenu plugin;
-
     public CommandGUI(DraimMenu pl) {
         this.plugin = pl;
     }
 
-    @EventHandler
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         GUI gui = null;
         if (args.length != 0) {
@@ -32,7 +30,7 @@ public class CommandGUI implements CommandExecutor {
             return true;
         }
         if(gui == null){
-            sender.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.nogui")));
+            sender.sendMessage(plugin.tex.colour(plugin.tag + plugin.config.getString("config.format.nomenu")));
             return true;
         }
         boolean disableCommand = false;

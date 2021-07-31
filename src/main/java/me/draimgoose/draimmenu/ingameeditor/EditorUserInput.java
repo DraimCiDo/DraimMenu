@@ -71,7 +71,7 @@ public class EditorUserInput implements Listener {
             if(section.startsWith("gui.")){
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                     public void run() {
-                        plugin.editorGuis.openEditorGUI(p, 0);
+                        plugin.editorGUI.openEditorGUI(p, 0);
                     }
                 });
             }else if(section.startsWith("item:")) {
@@ -89,13 +89,13 @@ public class EditorUserInput implements Listener {
                     final ConfigurationSection changeFinalCF = cf.getConfigurationSection("item." + changeItemSection);
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         public void run() {
-                            plugin.editorGuis.openItemSections(p,guiName,changeFinalCF,changeItemSection);
+                            plugin.editorGUI.openItemSections(p,guiName,changeFinalCF,changeItemSection);
                         }
                     });
                 }else{
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                         public void run() {
-                            plugin.editorGuis.openItemSections(p,guiName,finalCF,itemSection);
+                            plugin.editorGUI.openItemSections(p,guiName,finalCF,itemSection);
                         }
                     });
                 }

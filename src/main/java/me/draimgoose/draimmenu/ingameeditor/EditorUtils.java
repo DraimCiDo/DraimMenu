@@ -62,7 +62,7 @@ public class EditorUtils implements Listener {
             //кнопка "предыдущая страница"
             try {
                 if (Objects.requireNonNull(e.getCurrentItem()).getType() == Material.PAPER) {
-                    plugin.editorGuis.openEditorGUI(p, -1);
+                    plugin.editorGUI.openEditorGUI(p, -1);
                     p.updateInventory();
                     return;
                 }
@@ -79,7 +79,7 @@ public class EditorUtils implements Listener {
             //кнопка "Следующая страница"
             try{
                 if(Objects.requireNonNull(e.getCurrentItem()).getType() == Material.PAPER){
-                    plugin.editorGuis.openEditorGUI(p, 1);
+                    plugin.editorGUI.openEditorGUI(p, 1);
                     p.updateInventory();
                     return;
                 }
@@ -110,7 +110,7 @@ public class EditorUtils implements Listener {
                         int count = 0;
                         for(String guiName : guiNames){
                             if(guiName.equals(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()))){
-                                plugin.editorGuis.openGUISettings(p,guiName,guiYaml.get(count));
+                                plugin.editorGUI.openGUISettings(p,guiName,guiYaml.get(count));
                                 return;
                             }
                             count +=1;
@@ -217,7 +217,7 @@ public class EditorUtils implements Listener {
             inventoryItemSettingsOpening.add(p.getName());
             //обновление конфигурации yaml
             config = YamlConfiguration.loadConfiguration(file);
-            plugin.editorGuis.openItemSettings(p,guiName,config.getConfigurationSection("gui." + guiName + ".item." + e.getSlot()), String.valueOf(e.getSlot()));
+            plugin.editorGUI.openItemSettings(p,guiName,config.getConfigurationSection("gui." + guiName + ".item." + e.getSlot()), String.valueOf(e.getSlot()));
             p.updateInventory();
             return;
         }
@@ -408,7 +408,7 @@ public class EditorUtils implements Listener {
             p.closeInventory();
         }
         if(e.getSlot() == 18){
-            plugin.editorGuis.openEditorGUI(p,0);
+            plugin.editorGUI.openEditorGUI(p,0);
             p.updateInventory();
         }
         if(e.getSlot() == 40){
@@ -547,7 +547,7 @@ public class EditorUtils implements Listener {
             p.closeInventory();
         }
         if(e.getSlot() == 31){
-            plugin.editorGuis.openItemSections(p,guiName,guiYaml.getConfigurationSection("item." + itemSlot), itemSlot);
+            plugin.editorGUI.openItemSections(p,guiName,guiYaml.getConfigurationSection("item." + itemSlot), itemSlot);
             p.updateInventory();
         }
         if(e.getSlot() == 35){
@@ -558,7 +558,7 @@ public class EditorUtils implements Listener {
         if(e.getSlot() == 27){
             if(itemSlot.contains(".")){
                 String newSection = itemSlot.substring(0, itemSlot.lastIndexOf("."));
-                plugin.editorGuis.openItemSections(p,guiName,guiYaml.getConfigurationSection("item." + newSection), newSection);
+                plugin.editorGUI.openItemSections(p,guiName,guiYaml.getConfigurationSection("item." + newSection), newSection);
             }else {
                 plugin.createGUI.openGui(new GUI(guiYaml, guiName), p,GUIPosition.Top, GUIOpenType.Editor, 0);
             }
@@ -608,7 +608,7 @@ public class EditorUtils implements Listener {
             if(e.getInventory().getItem(e.getSlot()) != null){
                 if(e.getClick().isLeftClick()) {
                     String newSection = section + "." + ChatColor.stripColor(e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
-                    plugin.editorGuis.openItemSettings(p, guiName, itemConfSection.getConfigurationSection(ChatColor.stripColor(e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName())), newSection);
+                    plugin.editorGUI.openItemSettings(p, guiName, itemConfSection.getConfigurationSection(ChatColor.stripColor(e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName())), newSection);
                     p.updateInventory();
                 }else{
                     String itemNameSection = "." + ChatColor.stripColor(e.getInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
@@ -632,7 +632,7 @@ public class EditorUtils implements Listener {
         }
 
         if(e.getSlot() == 36){
-            plugin.editorGuis.openItemSettings(p,guiName,itemConfSection, section);
+            plugin.editorGUI.openItemSettings(p,guiName,itemConfSection, section);
             p.updateInventory();
         }
     }

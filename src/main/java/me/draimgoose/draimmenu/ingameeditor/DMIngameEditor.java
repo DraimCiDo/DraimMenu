@@ -44,7 +44,7 @@ public class DMIngameEditor implements CommandExecutor {
             }
         }
         if (args.length == 0) {
-            plugin.editorGuis.openEditorGUI(p,0);
+            plugin.editorGUI.openEditorGUI(p,0);
             return true;
         }
         sender.sendMessage(plugin.tex.colour(plugin.tag + ChatColor.RED + "Используйте: /dme <меню>"));

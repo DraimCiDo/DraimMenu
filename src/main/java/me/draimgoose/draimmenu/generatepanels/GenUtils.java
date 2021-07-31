@@ -73,7 +73,7 @@ public class GenUtils implements Listener {
         }
         YamlConfiguration file;
         String date = "gui-1";
-        for(int count = 1; (Arrays.asList(Objects.requireNonNull(plugin.guisf.list())).contains("gui-" + count + ".yml")) || (agui.contains("gui-" + count)); count++){
+        for(int count = 1; (Arrays.asList(Objects.requireNonNull(plugin.guiSF.list())).contains("gui-" + count + ".yml")) || (agui.contains("gui-" + count)); count++){
             date = "gui-" + (count+1);
         }
         File folder = new File(plugin.getDataFolder() + File.separator + "gui");
@@ -97,7 +97,7 @@ public class GenUtils implements Listener {
         file = plugin.itemCreate.generateGUIFile(date,inv,file);
 
         try {
-            file.save(new File(plugin.guisf + File.separator + date + ".yml"));
+            file.save(new File(plugin.guiSF + File.separator + date + ".yml"));
             p.sendMessage(plugin.tex.colour( plugin.tag + ChatColor.GREEN + "Сохранение сгенерированного файла: " + date + ".yml"));
         } catch (IOException var16) {
             p.sendMessage(plugin.tex.colour( plugin.tag + ChatColor.RED + "Не удалось сохранить созданную панель!"));

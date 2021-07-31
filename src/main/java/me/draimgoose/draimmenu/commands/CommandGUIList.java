@@ -42,7 +42,7 @@ public class CommandGUIList implements CommandExecutor {
                 }
                 sender.sendMessage(plugin.tex.colour(plugin.tag + ChatColor.DARK_AQUA + "Меню: (Страница " + page + ")"));
                 for (int f = skip; guis.size() > f && skip+8 > f; f++) {
-                    sender.sendMessage(ChatColor.DARK_GREEN + guis.get(f).getFile().getAbsolutePath().replace(plugin.guisf.getAbsolutePath(),"") + ChatColor.GREEN + " " + guis.get(f).getName());
+                    sender.sendMessage(ChatColor.DARK_GREEN + guis.get(f).getFile().getAbsolutePath().replace(plugin.guiSF.getAbsolutePath(),"") + ChatColor.GREEN + " " + guis.get(f).getName());
                     if(guis.size()-1 == f){
                         return true;
                     }
