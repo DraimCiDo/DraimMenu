@@ -83,7 +83,7 @@ public class Updater implements Listener {
             public void run(){
                 HttpURLConnection connection;
                 try {
-                    connection = (HttpURLConnection) new URL("https://raw.githubusercontent.com/DraimCiDo/DraimMenu/master/resource/plugin.yml").openConnection();
+                    connection = (HttpURLConnection) new URL("https://raw.githubusercontent.com/DraimCiDo/DraimMenu/master/src/main/resources/plugin.yml").openConnection();
                     connection.connect();
                     catchedLatestVersion = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().split("\\s")[1];
                     connection.disconnect();
