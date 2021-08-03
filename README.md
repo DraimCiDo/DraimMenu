@@ -8,7 +8,7 @@ Therefore, i present to you a free and unique plugin, that will allow you to cre
   - Creating complex GUI systems
 
 ### Discord Support 
-Discord Server is still in development<br>
+Your support [here](https://discord.gg/TqERqrrBjE)<br>
 The fastest way to contact author of plugin of course - Discord
 
 ### Wiki Page
